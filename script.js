@@ -41,14 +41,21 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
-function initializeApp() {
-    loadClientsFromStorage();
+async function initializeApp() {
     setupEventListeners();
     
     // Verificar se há usuário logado
     const loggedUser = localStorage.getItem('ganfi_logged_user');
     if (loggedUser) {
         showDashboard();
+        // Carregar clientes do banco de dados
+        try {
+            await loadClientsFromDatabase();
+            updateStatistics();
+            renderClientsTable();
+        } catch (error) {
+            console.error('Falha ao carregar clientes:', error);
+        }
     } else {
         showLogin();
     }
@@ -72,6 +79,12 @@ function setupEventListeners() {
     elements.closeModal.addEventListener('click', closeClientModal);
     elements.cancelModal.addEventListener('click', closeClientModal);
     elements.clientForm.addEventListener('submit', handleClientSubmit);
+    
+    // Botão de atualizar dados
+    const refreshBtn = document.getElementById('refreshDataBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', refreshClientsFromServer);
+    }
     
     // Adicionar número
     elements.addNumberBtn.addEventListener('click', () => addNumberInput());
@@ -118,11 +131,21 @@ function showLogin() {
     clearLoginForm();
 }
 
-function showDashboard() {
+async function showDashboard() {
     elements.loginScreen.style.display = 'none';
     elements.dashboard.style.display = 'block';
-    updateStatistics();
-    renderClientsTable();
+    
+    // Carregar clientes do banco de dados quando mostrar o dashboard
+    try {
+        await loadClientsFromDatabase();
+        updateStatistics();
+        renderClientsTable();
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        // Mostrar dados do cache se disponível
+        updateStatistics();
+        renderClientsTable();
+    }
 }
 
 function showLoginError(message) {
@@ -149,41 +172,66 @@ function switchSection(sectionName) {
 }
 
 // Gestão de clientes
-function loadClientsFromStorage() {
+async function loadClientsFromDatabase() {
+    try {
+        showNotification('Carregando clientes...', 'info');
+        
+        const response = await fetch('https://requisicao.grupoganfi.com/webhook/0f8b0045-4bc7-40e0-b902-bd7d2d6c26cf', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Ganfi-Admin/1.0'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const clientsFromDB = await response.json();
+        
+        // Converter formato do banco para formato interno
+        clients = clientsFromDB.map(client => ({
+            id: client.id_contato,
+            name: client.nome,
+            authorizedNumbers: client.numeros_autorizados || [],
+            paymentStatus: client.status,
+            dueDay: extractDayFromDate(client.data_criacao) || 15, // Default para dia 15 se não tiver
+            createdAt: client.data_criacao,
+            updatedAt: client.data_qualificacao
+        }));
+        
+        filteredClients = [...clients];
+        
+        // Salvar no localStorage como cache
+        saveClientsToStorage();
+        
+        showNotification(`${clients.length} clientes carregados com sucesso!`, 'success');
+        
+        return clients;
+        
+    } catch (error) {
+        console.error('Erro ao carregar clientes do banco:', error);
+        showNotification('Erro ao carregar clientes do servidor', 'warning');
+        
+        // Fallback para localStorage se a API falhar
+        loadClientsFromLocalStorage();
+        
+        throw error;
+    }
+}
+
+function loadClientsFromLocalStorage() {
     const stored = localStorage.getItem(CONFIG.storageKey);
     if (stored) {
         clients = JSON.parse(stored);
+        filteredClients = [...clients];
+        showNotification('Carregados clientes do cache local', 'info');
     } else {
-        // Dados de exemplo
-        clients = [
-            {
-                id: 1,
-                name: 'João Silva',
-                authorizedNumbers: ['(11) 99999-1234', '(11) 99999-5678'],
-                paymentStatus: 'paid',
-                dueDay: 15,
-                createdAt: new Date().toISOString()
-            },
-            {
-                id: 2,
-                name: 'Maria Santos',
-                authorizedNumbers: ['(21) 88888-9999'],
-                paymentStatus: 'pending',
-                dueDay: 10,
-                createdAt: new Date().toISOString()
-            },
-            {
-                id: 3,
-                name: 'Pedro Oliveira',
-                authorizedNumbers: ['(31) 77777-3333'],
-                paymentStatus: 'overdue',
-                dueDay: 5,
-                createdAt: new Date().toISOString()
-            }
-        ];
-        saveClientsToStorage();
+        clients = [];
+        filteredClients = [];
+        showNotification('Nenhum cliente encontrado', 'info');
     }
-    filteredClients = [...clients];
 }
 
 function saveClientsToStorage() {
@@ -487,25 +535,25 @@ function handleClientSubmit(e) {
     closeClientModal();
 }
 
-function createClient(clientData) {
+async function createClient(clientData) {
     const newClient = {
         id: Date.now(),
         ...clientData,
         createdAt: new Date().toISOString()
     };
     
-    clients.push(newClient);
-    saveClientsToStorage();
-    updateStatistics();
-    handleSearch(); // Reaplica o filtro atual
-    
     // Enviar webhook para novo cliente
-    sendWebhook(newClient, 'novo_cliente');
+    await sendWebhook(newClient, 'novo_cliente');
+    
+    // Recarregar dados do servidor após criar
+    setTimeout(async () => {
+        await refreshClientsFromServer();
+    }, 1000);
     
     showNotification('Cliente criado com sucesso!', 'success');
 }
 
-function updateClient(clientId, clientData) {
+async function updateClient(clientId, clientData) {
     const clientIndex = clients.findIndex(c => c.id === clientId);
     if (clientIndex !== -1) {
         const updatedClient = {
@@ -514,14 +562,13 @@ function updateClient(clientId, clientData) {
             updatedAt: new Date().toISOString()
         };
         
-        clients[clientIndex] = updatedClient;
-        
-        saveClientsToStorage();
-        updateStatistics();
-        handleSearch(); // Reaplica o filtro atual
-        
         // Enviar webhook para cliente atualizado
-        sendWebhook(updatedClient, 'cliente_atualizado');
+        await sendWebhook(updatedClient, 'cliente_atualizado');
+        
+        // Recarregar dados do servidor após atualizar
+        setTimeout(async () => {
+            await refreshClientsFromServer();
+        }, 1000);
         
         showNotification('Cliente atualizado com sucesso!', 'success');
     }
@@ -549,18 +596,18 @@ function confirmDeleteClient(clientId) {
     }
 }
 
-function deleteClient(clientId) {
+async function deleteClient(clientId) {
     const clientIndex = clients.findIndex(c => c.id === clientId);
     if (clientIndex !== -1) {
         const clientToDelete = clients[clientIndex];
         
         // Enviar webhook antes de excluir
-        sendWebhook(clientToDelete, 'cliente_excluido');
+        await sendWebhook(clientToDelete, 'cliente_excluido');
         
-        clients.splice(clientIndex, 1);
-        saveClientsToStorage();
-        updateStatistics();
-        handleSearch(); // Reaplica o filtro atual
+        // Recarregar dados do servidor após excluir
+        setTimeout(async () => {
+            await refreshClientsFromServer();
+        }, 1000);
         
         showNotification('Cliente excluído com sucesso!', 'success');
     }
@@ -609,6 +656,24 @@ function isOverdueThisMonth(dueDay) {
     
     // Se o dia atual é maior que o dia de vencimento, está atrasado
     return currentDay > dueDay;
+}
+
+function extractDayFromDate(dateString) {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    return date.getDate();
+}
+
+// Função para recarregar dados do servidor
+async function refreshClientsFromServer() {
+    try {
+        await loadClientsFromDatabase();
+        updateStatistics();
+        renderClientsTable();
+        showNotification('Dados atualizados!', 'success');
+    } catch (error) {
+        showNotification('Erro ao atualizar dados', 'warning');
+    }
 }
 
 function showNotification(message, type = 'info') {
@@ -711,6 +776,20 @@ setInterval(updatePaymentStatuses, 60000);
 // Verificar imediatamente ao carregar
 setTimeout(updatePaymentStatuses, 1000);
 
+// Auto-refresh dos dados a cada 30 segundos
+setInterval(async () => {
+    const loggedUser = localStorage.getItem('ganfi_logged_user');
+    if (loggedUser && elements.dashboard.style.display !== 'none') {
+        try {
+            await loadClientsFromDatabase();
+            updateStatistics();
+            renderClientsTable();
+        } catch (error) {
+            console.log('Auto-refresh falhou:', error);
+        }
+    }
+}, 30000); // 30 segundos
+
 // Função para enviar webhook
 async function sendWebhook(clientData, evento) {
     const webhookUrl = 'https://requisicao.grupoganfi.com/webhook/50e63045-e679-4ad3-b496-a6700f4c9917';
@@ -742,13 +821,11 @@ async function sendWebhook(clientData, evento) {
         
         if (response.ok) {
             console.log('Webhook enviado com sucesso:', evento, clientData.name);
-            // Mostrar notificação discreta de sucesso
-            setTimeout(() => {
-                showNotification(`✓ Webhook enviado: ${evento}`, 'info');
-            }, 1000);
+            return true;
         } else {
             console.error('Erro ao enviar webhook:', response.status, response.statusText);
             showNotification('⚠️ Erro ao sincronizar dados', 'warning');
+            return false;
         }
     } catch (error) {
         console.error('Erro na requisição do webhook:', error);
