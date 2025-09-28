@@ -98,7 +98,7 @@ User-Agent: Ganfi-Admin/1.0
   "cliente": {
     "id": 123456789,
     "nome": "Nome do Cliente",
-    "numerosAutorizados": ["(11) 99999-9999"],
+    "numerosAutorizados": ["5511999999999"],
     "statusPagamento": "paid" | "pending" | "overdue",
     "diaVencimento": 15,
     "criadoEm": "2025-09-25T10:30:00.000Z",
@@ -108,6 +108,8 @@ User-Agent: Ganfi-Admin/1.0
   "origem": "ganfi-admin-web"
 }
 ```
+
+**⚠️ Importante**: Os números são convertidos automaticamente de `(11) 99999-9999` para `5511999999999` (DDI 55 + DDD + número) antes do envio.
 
 ---
 

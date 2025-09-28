@@ -1,0 +1,505 @@
+/**
+ * Tarefas CSS - Estilo ClickUp/Monday.com
+ * Interface profissional para gestão de tarefas entre setores
+ */
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.breadcrumb-item {
+    color: var(--text-muted);
+}
+
+.breadcrumb i {
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+
+/* View Controls */
+.view-controls {
+    display: flex;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 0.25rem;
+    gap: 0.25rem;
+}
+
+.view-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-btn.active {
+    background: var(--bg-primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.view-btn:hover:not(.active) {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* Task Controls */
+.task-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.group-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.group-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.group-select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.group-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.task-summary {
+    display: flex;
+    gap: 2rem;
+}
+
+.summary-item {
+    text-align: center;
+}
+
+.summary-count {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.summary-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Task Groups */
+.task-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.task-group {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.group-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.group-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.task-count {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-full);
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+.group-menu {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.group-menu:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* Status Indicators */
+.status-todo { color: #ef4444; }
+.status-progress { color: #f59e0b; }
+.status-done { color: #10b981; }
+
+/* Task List */
+.task-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.task-row:hover {
+    background: var(--bg-hover);
+}
+
+.task-row.active {
+    background: rgba(59, 130, 246, 0.05);
+    border-left: 3px solid var(--color-primary);
+}
+
+.task-row.completed {
+    opacity: 0.6;
+}
+
+.task-row:last-child {
+    border-bottom: none;
+}
+
+.task-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.task-checkbox {
+    position: relative;
+}
+
+.task-checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-primary);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.task-checkbox input[type="checkbox"]:checked {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.task-checkbox input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.task-checkbox label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.task-priority {
+    width: 4px;
+    height: 24px;
+    border-radius: 2px;
+}
+
+.priority-high { background: #ef4444; }
+.priority-medium { background: #f59e0b; }
+.priority-low { background: #10b981; }
+
+.task-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.4;
+}
+
+.task-completed .task-title {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.task-id {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+}
+
+.task-separator {
+    opacity: 0.5;
+}
+
+.task-department {
+    background: var(--bg-tertiary);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.task-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 120px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), #1d4ed8);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.progress-fill-65 {
+    width: 65%;
+}
+
+.progress-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+/* Task Fields */
+.task-fields {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.field-assignee {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 140px;
+}
+
+.assignee-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.assignee-name {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.field-due-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 100px;
+    font-size: 0.875rem;
+}
+
+.field-due-date i {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.due-date {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.field-due-date.overdue {
+    color: #ef4444;
+}
+
+.field-due-date.completed {
+    color: #10b981;
+}
+
+.field-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 60px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.field-time i {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.time-estimate {
+    font-weight: 500;
+}
+
+/* Add Task Row */
+.add-task-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.add-task-row:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.add-task-row i {
+    font-size: 0.75rem;
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+    .task-fields {
+        gap: 1rem;
+    }
+    
+    .field-assignee {
+        min-width: 120px;
+    }
+    
+    .field-due-date {
+        min-width: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .task-controls {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .task-summary {
+        justify-content: space-around;
+        gap: 1rem;
+    }
+    
+    .task-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+    
+    .task-fields {
+        justify-content: space-between;
+        padding-left: 2.5rem;
+    }
+    
+    .field-assignee,
+    .field-due-date {
+        min-width: auto;
+    }
+}

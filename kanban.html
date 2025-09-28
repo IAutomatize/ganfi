@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban - Grupo Ganfi CRM</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/assessoria-tributaria.css">
+    <link rel="stylesheet" href="css/kanban.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-calculator"></i>
+                    <div>
+                        <div class="sidebar-title">Grupo Ganfi</div>
+                        <div class="sidebar-subtitle">Assessoria Tributária</div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-item">
+                    <a href="assessoria-tributaria.html" class="nav-link">
+                        <i class="fas fa-calculator"></i>
+                        <span>Assessoria Tributária</span>
+                        <span class="nav-badge active-badge">Principal</span>
+                    </a>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <div class="nav-item">
+                    <a href="kanban.html" class="nav-link">
+                        <i class="fas fa-columns"></i>
+                        <span>Kanban</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="clientes.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Clientes Gerais</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="tarefas.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Tarefas</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer" style="margin-top: auto; padding: var(--space-5);">
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Kanban de Projetos</h1>
+                    <p class="page-subtitle">Gerencie fluxo de trabalho e projetos em andamento</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-filter"></i>
+                        Filtros
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Nova Tarefa
+                    </button>
+                    
+                    <div class="user-menu">
+                        <div class="user-avatar">AD</div>
+                        <span class="user-name">Administrador</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="kanban-board">
+                    <!-- Coluna: A Fazer -->
+                    <div class="kanban-column">
+                        <div class="column-header">
+                            <h3 class="column-title">
+                                <span class="column-color todo"></span>
+                                A Fazer
+                                <span class="task-count">3</span>
+                            </h3>
+                            <button class="column-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-card">
+                                <div class="task-header">
+                                    <span class="task-priority high">Alta</span>
+                                    <span class="task-id">#001</span>
+                                </div>
+                                <h4 class="task-title">Implementar módulo de relatórios</h4>
+                                <p class="task-description">Desenvolver sistema completo de relatórios financeiros</p>
+                                <div class="task-tags">
+                                    <span class="tag">Desenvolvimento</span>
+                                    <span class="tag">Backend</span>
+                                </div>
+                                <div class="task-footer">
+                                    <div class="task-assignees">
+                                        <div class="avatar">JS</div>
+                                        <div class="avatar">MR</div>
+                                    </div>
+                                    <span class="task-date">15 Out</span>
+                                </div>
+                            </div>
+                            
+                            <div class="task-card">
+                                <div class="task-header">
+                                    <span class="task-priority medium">Média</span>
+                                    <span class="task-id">#002</span>
+                                </div>
+                                <h4 class="task-title">Revisar documentação API</h4>
+                                <p class="task-description">Atualizar documentação dos endpoints</p>
+                                <div class="task-tags">
+                                    <span class="tag">Documentação</span>
+                                </div>
+                                <div class="task-footer">
+                                    <div class="task-assignees">
+                                        <div class="avatar">AN</div>
+                                    </div>
+                                    <span class="task-date">20 Out</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-task-btn">
+                            <i class="fas fa-plus"></i>
+                            Adicionar tarefa
+                        </button>
+                    </div>
+
+                    <!-- Coluna: Em Progresso -->
+                    <div class="kanban-column">
+                        <div class="column-header">
+                            <h3 class="column-title">
+                                <span class="column-color progress"></span>
+                                Em Progresso
+                                <span class="task-count">2</span>
+                            </h3>
+                            <button class="column-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-card active">
+                                <div class="task-header">
+                                    <span class="task-priority high">Alta</span>
+                                    <span class="task-id">#003</span>
+                                </div>
+                                <h4 class="task-title">Sistema de autenticação</h4>
+                                <p class="task-description">Implementar login seguro e gestão de sessões</p>
+                                <div class="task-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%;"></div>
+                                    </div>
+                                    <span class="progress-text">75%</span>
+                                </div>
+                                <div class="task-tags">
+                                    <span class="tag">Segurança</span>
+                                    <span class="tag">Frontend</span>
+                                </div>
+                                <div class="task-footer">
+                                    <div class="task-assignees">
+                                        <div class="avatar">GF</div>
+                                    </div>
+                                    <span class="task-date">Hoje</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-task-btn">
+                            <i class="fas fa-plus"></i>
+                            Adicionar tarefa
+                        </button>
+                    </div>
+
+                    <!-- Coluna: Em Revisão -->
+                    <div class="kanban-column">
+                        <div class="column-header">
+                            <h3 class="column-title">
+                                <span class="column-color review"></span>
+                                Em Revisão
+                                <span class="task-count">1</span>
+                            </h3>
+                            <button class="column-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-card">
+                                <div class="task-header">
+                                    <span class="task-priority low">Baixa</span>
+                                    <span class="task-id">#004</span>
+                                </div>
+                                <h4 class="task-title">Otimização de performance</h4>
+                                <p class="task-description">Melhorar velocidade de carregamento</p>
+                                <div class="task-tags">
+                                    <span class="tag">Performance</span>
+                                </div>
+                                <div class="task-footer">
+                                    <div class="task-assignees">
+                                        <div class="avatar">LM</div>
+                                    </div>
+                                    <span class="task-date">25 Out</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-task-btn">
+                            <i class="fas fa-plus"></i>
+                            Adicionar tarefa
+                        </button>
+                    </div>
+
+                    <!-- Coluna: Concluído -->
+                    <div class="kanban-column">
+                        <div class="column-header">
+                            <h3 class="column-title">
+                                <span class="column-color done"></span>
+                                Concluído
+                                <span class="task-count">4</span>
+                            </h3>
+                            <button class="column-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-card completed">
+                                <div class="task-header">
+                                    <span class="task-priority medium">Média</span>
+                                    <span class="task-id">#005</span>
+                                </div>
+                                <h4 class="task-title">Design do dashboard</h4>
+                                <p class="task-description">Criar layout responsivo e moderno</p>
+                                <div class="task-tags">
+                                    <span class="tag">Design</span>
+                                    <span class="tag">UI/UX</span>
+                                </div>
+                                <div class="task-footer">
+                                    <div class="task-assignees">
+                                        <div class="avatar">DR</div>
+                                    </div>
+                                    <span class="task-date">Ontem</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-task-btn">
+                            <i class="fas fa-plus"></i>
+                            Adicionar tarefa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/utils/ui-utils.js"></script>
+    <script src="js/kanban.js"></script>
+</body>
+</html>

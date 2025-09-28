@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas - Grupo Ganfi CRM</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/assessoria-tributaria.css">
+    <link rel="stylesheet" href="css/tarefas.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-calculator"></i>
+                    <div>
+                        <div class="sidebar-title">Grupo Ganfi</div>
+                        <div class="sidebar-subtitle">Assessoria Tributária</div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-item">
+                    <a href="assessoria-tributaria.html" class="nav-link">
+                        <i class="fas fa-calculator"></i>
+                        <span>Assessoria Tributária</span>
+                        <span class="nav-badge active-badge">Principal</span>
+                    </a>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <div class="nav-item">
+                    <a href="kanban.html" class="nav-link">
+                        <i class="fas fa-columns"></i>
+                        <span>Kanban</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="clientes.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Clientes Gerais</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="tarefas.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Tarefas</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer" style="margin-top: auto; padding: var(--space-5);">
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Tarefas</h1>
+                    <div class="breadcrumb">
+                        <span class="breadcrumb-item">Projetos</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="breadcrumb-item">Sistema CRM</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="view-controls">
+                        <button class="view-btn active">
+                            <i class="fas fa-list"></i>
+                            Lista
+                        </button>
+                        <button class="view-btn">
+                            <i class="fas fa-th-large"></i>
+                            Board
+                        </button>
+                    </div>
+                    
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-filter"></i>
+                        Filtros
+                    </button>
+                    
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Nova Tarefa
+                    </button>
+                    
+                    <div class="user-menu">
+                        <div class="user-avatar">AD</div>
+                        <span class="user-name">Administrador</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Filtros e controles -->
+                <div class="task-controls">
+                    <div class="group-controls">
+                        <span class="group-label">Agrupar por:</span>
+                        <select class="group-select">
+                            <option value="status">Status</option>
+                            <option value="assignee">Responsável</option>
+                            <option value="priority">Prioridade</option>
+                            <option value="department">Setor</option>
+                        </select>
+                    </div>
+                    
+                    <div class="task-summary">
+                        <div class="summary-item">
+                            <span class="summary-count">8</span>
+                            <span class="summary-label">Total</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-count">3</span>
+                            <span class="summary-label">Em Progresso</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-count">2</span>
+                            <span class="summary-label">Atrasadas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de tarefas agrupadas por status -->
+                <div class="task-groups">
+                    <!-- Grupo: A Fazer -->
+                    <div class="task-group">
+                        <div class="group-header">
+                            <div class="group-info">
+                                <i class="fas fa-circle status-todo"></i>
+                                <h3 class="group-title">A Fazer</h3>
+                                <span class="task-count">3</span>
+                            </div>
+                            <button class="group-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-row">
+                                <div class="task-info">
+                                    <div class="task-checkbox">
+                                        <input type="checkbox" id="task-1">
+                                        <label for="task-1"></label>
+                                    </div>
+                                    <div class="task-priority priority-high"></div>
+                                    <div class="task-details">
+                                        <h4 class="task-title">Revisar processo de onboarding</h4>
+                                        <div class="task-meta">
+                                            <span class="task-id">#TSK-001</span>
+                                            <span class="task-separator">•</span>
+                                            <span class="task-department">RH</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="task-fields">
+                                    <div class="field-assignee">
+                                        <div class="assignee-avatar">MR</div>
+                                        <span class="assignee-name">Maria Ribeiro</span>
+                                    </div>
+                                    <div class="field-due-date">
+                                        <i class="fas fa-calendar"></i>
+                                        <span class="due-date">30 Set</span>
+                                    </div>
+                                    <div class="field-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="time-estimate">4h</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="task-row">
+                                <div class="task-info">
+                                    <div class="task-checkbox">
+                                        <input type="checkbox" id="task-2">
+                                        <label for="task-2"></label>
+                                    </div>
+                                    <div class="task-priority priority-medium"></div>
+                                    <div class="task-details">
+                                        <h4 class="task-title">Atualizar sistema de cobrança</h4>
+                                        <div class="task-meta">
+                                            <span class="task-id">#TSK-002</span>
+                                            <span class="task-separator">•</span>
+                                            <span class="task-department">Financeiro</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="task-fields">
+                                    <div class="field-assignee">
+                                        <div class="assignee-avatar">JS</div>
+                                        <span class="assignee-name">João Silva</span>
+                                    </div>
+                                    <div class="field-due-date">
+                                        <i class="fas fa-calendar"></i>
+                                        <span class="due-date">2 Out</span>
+                                    </div>
+                                    <div class="field-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="time-estimate">6h</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-task-row">
+                            <i class="fas fa-plus"></i>
+                            Adicionar tarefa
+                        </button>
+                    </div>
+
+                    <!-- Grupo: Em Progresso -->
+                    <div class="task-group">
+                        <div class="group-header">
+                            <div class="group-info">
+                                <i class="fas fa-circle status-progress"></i>
+                                <h3 class="group-title">Em Progresso</h3>
+                                <span class="task-count">2</span>
+                            </div>
+                            <button class="group-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-row active">
+                                <div class="task-info">
+                                    <div class="task-checkbox">
+                                        <input type="checkbox" id="task-3">
+                                        <label for="task-3"></label>
+                                    </div>
+                                    <div class="task-priority priority-high"></div>
+                                    <div class="task-details">
+                                        <h4 class="task-title">Implementar nova API de integração</h4>
+                                        <div class="task-meta">
+                                            <span class="task-id">#TSK-003</span>
+                                            <span class="task-separator">•</span>
+                                            <span class="task-department">TI</span>
+                                        </div>
+                                        <div class="task-progress">
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 65%;"></div>
+                                            </div>
+                                            <span class="progress-text">65%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="task-fields">
+                                    <div class="field-assignee">
+                                        <div class="assignee-avatar">AL</div>
+                                        <span class="assignee-name">Ana Lima</span>
+                                    </div>
+                                    <div class="field-due-date overdue">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <span class="due-date">Atrasada</span>
+                                    </div>
+                                    <div class="field-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="time-estimate">12h</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-task-row">
+                            <i class="fas fa-plus"></i>
+                            Adicionar tarefa
+                        </button>
+                    </div>
+
+                    <!-- Grupo: Concluído -->
+                    <div class="task-group">
+                        <div class="group-header">
+                            <div class="group-info">
+                                <i class="fas fa-circle status-done"></i>
+                                <h3 class="group-title">Concluído</h3>
+                                <span class="task-count">3</span>
+                            </div>
+                            <button class="group-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-row completed">
+                                <div class="task-info">
+                                    <div class="task-checkbox">
+                                        <input type="checkbox" id="task-4" checked>
+                                        <label for="task-4"></label>
+                                    </div>
+                                    <div class="task-priority priority-low"></div>
+                                    <div class="task-details">
+                                        <h4 class="task-title">Treinamento equipe vendas</h4>
+                                        <div class="task-meta">
+                                            <span class="task-id">#TSK-004</span>
+                                            <span class="task-separator">•</span>
+                                            <span class="task-department">Comercial</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="task-fields">
+                                    <div class="field-assignee">
+                                        <div class="assignee-avatar">CF</div>
+                                        <span class="assignee-name">Carlos Ferreira</span>
+                                    </div>
+                                    <div class="field-due-date completed">
+                                        <i class="fas fa-check"></i>
+                                        <span class="due-date">Finalizada</span>
+                                    </div>
+                                    <div class="field-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="time-estimate">8h</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-task-row">
+                            <i class="fas fa-plus"></i>
+                            Adicionar tarefa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/utils/ui-utils.js"></script>
+        <!-- Scripts -->
+    <script src="js/ui-utils.js"></script>
+    <script src="js/tarefas.js"></script>
+</body>
+</html>
+</body>
+</html>

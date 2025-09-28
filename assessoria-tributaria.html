@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo Ganfi - Assessoria Tributária</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/assessoria-tributaria.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="https://via.placeholder.com/120x60/2c3e50/ffffff?text=GANFI" alt="Ganfi Logo" class="logo">
+                <h2>Sistema de Administração</h2>
+                <p>Assistente Tributário WhatsApp</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required placeholder="adminganfi@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" required placeholder="Digite sua senha">
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+                <div id="loginError" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Principal -->
+    <div id="dashboard" class="dashboard-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-calculator"></i>
+                    <div>
+                        <div class="sidebar-title">Grupo Ganfi</div>
+                        <div class="sidebar-subtitle">Assessoria Tributária</div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-item">
+                    <button class="nav-btn active" data-section="clients">
+                        <i class="fas fa-calculator"></i>
+                        <span>Assessoria Tributária</span>
+                        <span class="nav-badge active-badge">Principal</span>
+                    </button>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <div class="nav-item">
+                    <a href="kanban.html" class="nav-link">
+                        <i class="fas fa-columns"></i>
+                        <span>Kanban</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="clientes.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Clientes Gerais</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="tarefas.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Tarefas</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer" style="margin-top: auto; padding: var(--space-5);">
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="dashboard-main">
+            <!-- Header do conteúdo -->
+            <header class="main-header">
+                <h1>Dashboard</h1>
+                <div class="header-right">
+                    <div class="user-info">
+                        <div class="user-avatar">AD</div>
+                        <span>Administrador</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Conteúdo das seções -->
+            <div class="main-content">
+                <!-- Seção de Clientes -->
+                <div id="clientsSection" class="dashboard-section active">
+                    <!-- Header da seção -->
+                    <div class="section-header">
+                        <h2 class="section-title">Gestão de Clientes</h2>
+                        <div class="section-actions">
+                            <button id="refreshDataBtn" class="btn-outline">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Atualizar</span>
+                            </button>
+                            <button id="addClientBtn" class="btn-primary">
+                                <i class="fas fa-plus"></i>
+                                <span>Novo Cliente</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Controles de busca -->
+                    <div class="controls-bar">
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="searchClients" class="search-input" placeholder="Buscar por nome, número ou status...">
+                        </div>
+                    </div>
+
+                    <!-- Cards de estatísticas modernos -->
+                    <div class="stats-grid">
+                        <div class="stat-card paid">
+                            <div class="stat-header">
+                                <div class="stat-icon paid">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            <div class="stat-number" id="paidClients">0</div>
+                            <div class="stat-label">Pagamento em Dia</div>
+                        </div>
+                        
+                        <div class="stat-card pending">
+                            <div class="stat-header">
+                                <div class="stat-icon pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="stat-number" id="pendingClients">0</div>
+                            <div class="stat-label">Pagamento Pendente</div>
+                        </div>
+                        
+                        <div class="stat-card overdue">
+                            <div class="stat-header">
+                                <div class="stat-icon overdue">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                            <div class="stat-number" id="overdueClients">0</div>
+                            <div class="stat-label">Pagamento Atrasado</div>
+                        </div>
+                        
+                        <div class="stat-card total">
+                            <div class="stat-header">
+                                <div class="stat-icon total">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="stat-number" id="totalClients">0</div>
+                            <div class="stat-label">Total de Clientes</div>
+                        </div>
+                    </div>
+
+                    <!-- Tabela moderna de clientes -->
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Números Autorizados</th>
+                                    <th>Status</th>
+                                    <th>Vencimento</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientsTableBody">
+                                <!-- Os clientes serão carregados aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Outras seções (placeholder para futuras funcionalidades) -->
+                <div id="reportsSection" class="dashboard-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Relatórios</h2>
+                    </div>
+                    <p style="color: var(--text-muted); text-align: center; padding: 3rem;">
+                        Em breve - Sistema de relatórios e analytics
+                    </p>
+                </div>
+
+                <div id="settingsSection" class="dashboard-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Configurações</h2>
+                    </div>
+                    <p style="color: var(--text-muted); text-align: center; padding: 3rem;">
+                        Em breve - Configurações do sistema
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal moderno de Cliente -->
+    <div id="clientModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle" class="modal-title">Novo Cliente</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="clientForm">
+                    <input type="hidden" id="clientId">
+                    
+                    <div class="form-group">
+                        <label for="clientName">Nome do Cliente:</label>
+                        <input type="text" id="clientName" class="form-control" required placeholder="Digite o nome completo">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Números Autorizados:</label>
+                        <div class="numbers-header">
+                            <span class="number-label">DDI</span>
+                            <span class="number-label">DDD</span>
+                            <span class="number-label">Número</span>
+                            <span class="number-label"></span>
+                        </div>
+                        <div class="numbers-container">
+                            <!-- Os campos de número serão adicionados dinamicamente -->
+                        </div>
+                        <button type="button" id="addNumberBtn" class="btn-success">
+                            <i class="fas fa-plus"></i>
+                            <span>Adicionar Número</span>
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentStatus">Status do Pagamento:</label>
+                        <select id="paymentStatus" class="form-control" required>
+                            <option value="">Selecione o status</option>
+                            <option value="paid">Pagamento em Dia</option>
+                            <option value="pending">Pagamento Pendente</option>
+                            <option value="overdue">Pagamento Atrasado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dueDay">Dia de Vencimento (1-31):</label>
+                        <input type="number" id="dueDay" class="form-control" min="1" max="31" placeholder="Ex: 15">
+                        <option value="1">Dia 1</option>
+                        <option value="2">Dia 2</option>
+                        <option value="3">Dia 3</option>
+                        <option value="4">Dia 4</option>
+                        <option value="5">Dia 5</option>
+                        <option value="6">Dia 6</option>
+                        <option value="7">Dia 7</option>
+                        <option value="8">Dia 8</option>
+                        <option value="9">Dia 9</option>
+                        <option value="10">Dia 10</option>
+                        <option value="11">Dia 11</option>
+                        <option value="12">Dia 12</option>
+                        <option value="13">Dia 13</option>
+                        <option value="14">Dia 14</option>
+                        <option value="15">Dia 15</option>
+                        <option value="16">Dia 16</option>
+                        <option value="17">Dia 17</option>
+                        <option value="18">Dia 18</option>
+                        <option value="19">Dia 19</option>
+                        <option value="20">Dia 20</option>
+                        <option value="21">Dia 21</option>
+                        <option value="22">Dia 22</option>
+                        <option value="23">Dia 23</option>
+                        <option value="24">Dia 24</option>
+                        <option value="25">Dia 25</option>
+                        <option value="26">Dia 26</option>
+                        <option value="27">Dia 27</option>
+                        <option value="28">Dia 28</option>
+                        <option value="29">Dia 29</option>
+                        <option value="30">Dia 30</option>
+                        <option value="31">Dia 31</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelModal">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmModal" class="modal" style="display: none;">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h3>Confirmar Ação</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Tem certeza que deseja realizar esta ação?</p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" id="cancelConfirm">Cancelar</button>
+                <button type="button" class="btn-danger" id="confirmAction">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Serviços -->
+    <script src="js/services/api.js"></script>
+    
+    <!-- Utilitários -->
+    <script src="js/utils/date-utils.js"></script>
+    <script src="js/utils/phone-utils.js"></script>
+    <script src="js/utils/ui-utils.js"></script>
+    
+    <!-- Módulos -->
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/navigation.js"></script>
+    <script src="js/modules/clients.js"></script>
+    
+    <!-- Aplicação principal -->
+    <script src="js/assessoria-tributaria.js"></script>
+</body>
+</html>

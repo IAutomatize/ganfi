@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - Grupo Ganfi CRM</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/assessoria-tributaria.css">
+    <link rel="stylesheet" href="css/clientes.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-calculator"></i>
+                    <div>
+                        <div class="sidebar-title">Grupo Ganfi</div>
+                        <div class="sidebar-subtitle">Assessoria Tributária</div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-item">
+                    <a href="assessoria-tributaria.html" class="nav-link">
+                        <i class="fas fa-calculator"></i>
+                        <span>Assessoria Tributária</span>
+                        <span class="nav-badge active-badge">Principal</span>
+                    </a>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <div class="nav-item">
+                    <a href="kanban.html" class="nav-link">
+                        <i class="fas fa-columns"></i>
+                        <span>Kanban</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="clientes.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Clientes Gerais</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="tarefas.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Tarefas</span>
+                        <span class="nav-badge demo-badge">Demo</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer" style="margin-top: auto; padding: var(--space-5);">
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Gestão de Clientes</h1>
+                    <p class="page-subtitle">Central de relacionamento e dados dos clientes</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-download"></i>
+                        Exportar
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Novo Cliente
+                    </button>
+                    
+                    <div class="user-menu">
+                        <div class="user-avatar">AD</div>
+                        <span class="user-name">Administrador</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Filtros e Busca -->
+                <div class="filters-section">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar clientes por nome, email ou empresa...">
+                    </div>
+                    
+                    <div class="filter-buttons">
+                        <button class="filter-btn active">Todos <span class="count">1,247</span></button>
+                        <button class="filter-btn">Ativos <span class="count">1,189</span></button>
+                        <button class="filter-btn">Inativos <span class="count">58</span></button>
+                        <button class="filter-btn">Prospects <span class="count">23</span></button>
+                    </div>
+                </div>
+
+                <!-- Cards de Estatísticas -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon customers">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">1,247</h3>
+                            <p class="stat-label">Total de Clientes</p>
+                            <span class="stat-change positive">+12% vs mês anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon revenue">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">R$ 2.4M</h3>
+                            <p class="stat-label">Receita Mensal</p>
+                            <span class="stat-change positive">+8% vs mês anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon retention">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">94.2%</h3>
+                            <p class="stat-label">Taxa de Retenção</p>
+                            <span class="stat-change positive">+2.1% vs mês anterior</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon acquisition">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">147</h3>
+                            <p class="stat-label">Novos este mês</p>
+                            <span class="stat-change negative">-5% vs mês anterior</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Clientes -->
+                <div class="table-section">
+                    <div class="table-header">
+                        <h3>Lista de Clientes</h3>
+                        <div class="table-actions">
+                            <button class="btn-icon">
+                                <i class="fas fa-filter"></i>
+                            </button>
+                            <button class="btn-icon">
+                                <i class="fas fa-sort"></i>
+                            </button>
+                            <button class="btn-icon">
+                                <i class="fas fa-columns"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="clients-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all"></th>
+                                    <th>Cliente</th>
+                                    <th>Empresa</th>
+                                    <th>Status</th>
+                                    <th>Valor Mensal</th>
+                                    <th>Último Contato</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-row">
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="client-info">
+                                            <div class="client-avatar">MR</div>
+                                            <div>
+                                                <div class="client-name">Maria Rodrigues</div>
+                                                <div class="client-email">maria@empresa.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="company-info">
+                                            <span class="company-name">Tech Solutions Ltda</span>
+                                            <span class="company-segment">Tecnologia</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-active">Ativo</span>
+                                    </td>
+                                    <td>
+                                        <span class="value-amount">R$ 2.500</span>
+                                    </td>
+                                    <td>
+                                        <span class="contact-date">Há 2 dias</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-action view">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-action edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-action delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="table-row">
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="client-info">
+                                            <div class="client-avatar">JS</div>
+                                            <div>
+                                                <div class="client-name">João Silva</div>
+                                                <div class="client-email">joao@comercial.com.br</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="company-info">
+                                            <span class="company-name">Comercial ABC S/A</span>
+                                            <span class="company-segment">Comércio</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-active">Ativo</span>
+                                    </td>
+                                    <td>
+                                        <span class="value-amount">R$ 1.800</span>
+                                    </td>
+                                    <td>
+                                        <span class="contact-date">Há 1 semana</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-action view">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-action edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-action delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="table-row">
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="client-info">
+                                            <div class="client-avatar">AC</div>
+                                            <div>
+                                                <div class="client-name">Ana Costa</div>
+                                                <div class="client-email">ana@consultoria.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="company-info">
+                                            <span class="company-name">Consultoria Premium</span>
+                                            <span class="company-segment">Consultoria</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-inactive">Inativo</span>
+                                    </td>
+                                    <td>
+                                        <span class="value-amount">R$ 3.200</span>
+                                    </td>
+                                    <td>
+                                        <span class="contact-date">Há 3 meses</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-action view">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-action edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-action delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Paginação -->
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="pagination-info">Página 1 de 42 • 1,247 clientes</span>
+                        <button class="pagination-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/utils/ui-utils.js"></script>
+    <script src="js/clientes.js"></script>
+</body>
+</html>
