@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarefas - Grupo Ganfi CRM</title>
-    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/c                                <h3 class="group-title">Em Progre                                <h3 class="group-title">Concluído</h3>
+                                <span class="task-count">1</span>
+                            </div>
+                            <button class="group-menu" title="Opções do grupo Concluído" aria-label="Menu de opções do grupo Concluído">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>3>
+                                <span class="task-count">1</span>
+                            </div>
+                            <button class="group-menu" title="Opções do grupo Em Progresso" aria-label="Menu de opções do grupo Em Progresso">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>css">
     <link rel="stylesheet" href="css/assessoria-tributaria.css">
     <link rel="stylesheet" href="css/tarefas.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -59,7 +69,7 @@
                 </div>
             </nav>
             
-            <div class="sidebar-footer" style="margin-top: auto; padding: var(--space-5);">
+            <div class="sidebar-footer">
                 <button id="logoutBtn" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
@@ -114,7 +124,7 @@
                 <div class="task-controls">
                     <div class="group-controls">
                         <span class="group-label">Agrupar por:</span>
-                        <select class="group-select">
+                        <select class="group-select" title="Agrupar por" aria-label="Selecionar critério de agrupamento">
                             <option value="status">Status</option>
                             <option value="assignee">Responsável</option>
                             <option value="priority">Prioridade</option>
@@ -148,7 +158,7 @@
                                 <h3 class="group-title">A Fazer</h3>
                                 <span class="task-count">3</span>
                             </div>
-                            <button class="group-menu">
+                            <button class="group-menu" title="Opções do grupo A Fazer" aria-label="Menu de opções do grupo A Fazer">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
                         </div>
@@ -157,7 +167,7 @@
                             <div class="task-row">
                                 <div class="task-info">
                                     <div class="task-checkbox">
-                                        <input type="checkbox" id="task-1">
+                                        <input type="checkbox" id="task-1" title="Marcar como concluída" aria-label="Marcar tarefa como concluída">
                                         <label for="task-1"></label>
                                     </div>
                                     <div class="task-priority priority-high"></div>
@@ -190,7 +200,7 @@
                             <div class="task-row">
                                 <div class="task-info">
                                     <div class="task-checkbox">
-                                        <input type="checkbox" id="task-2">
+                                        <input type="checkbox" id="task-2" title="Marcar como concluída" aria-label="Marcar tarefa como concluída">
                                         <label for="task-2"></label>
                                     </div>
                                     <div class="task-priority priority-medium"></div>
@@ -235,7 +245,7 @@
                                 <h3 class="group-title">Em Progresso</h3>
                                 <span class="task-count">2</span>
                             </div>
-                            <button class="group-menu">
+                            <button class="group-menu" title="Opções do grupo Em Progresso" aria-label="Menu de opções do grupo Em Progresso">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
                         </div>
@@ -244,7 +254,7 @@
                             <div class="task-row active">
                                 <div class="task-info">
                                     <div class="task-checkbox">
-                                        <input type="checkbox" id="task-3">
+                                        <input type="checkbox" id="task-3" title="Marcar como concluída" aria-label="Marcar tarefa como concluída">
                                         <label for="task-3"></label>
                                     </div>
                                     <div class="task-priority priority-high"></div>
@@ -257,7 +267,7 @@
                                         </div>
                                         <div class="task-progress">
                                             <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 65%;"></div>
+                                                <div class="progress-fill progress-fill-65"></div>
                                             </div>
                                             <span class="progress-text">65%</span>
                                         </div>
@@ -295,7 +305,7 @@
                                 <h3 class="group-title">Concluído</h3>
                                 <span class="task-count">3</span>
                             </div>
-                            <button class="group-menu">
+                            <button class="group-menu" title="Opções do grupo Concluído" aria-label="Menu de opções do grupo Concluído">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
                         </div>
@@ -304,7 +314,7 @@
                             <div class="task-row completed">
                                 <div class="task-info">
                                     <div class="task-checkbox">
-                                        <input type="checkbox" id="task-4" checked>
+                                        <input type="checkbox" id="task-4" checked title="Tarefa concluída" aria-label="Tarefa concluída">
                                         <label for="task-4"></label>
                                     </div>
                                     <div class="task-priority priority-low"></div>

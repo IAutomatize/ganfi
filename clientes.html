@@ -59,7 +59,7 @@
                 </div>
             </nav>
             
-            <div class="sidebar-footer" style="margin-top: auto; padding: var(--space-5);">
+            <div class="sidebar-footer">
                 <button id="logoutBtn" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
@@ -161,13 +161,13 @@
                     <div class="table-header">
                         <h3>Lista de Clientes</h3>
                         <div class="table-actions">
-                            <button class="btn-icon">
+                            <button class="btn-icon" title="Filtrar clientes" aria-label="Filtrar clientes">
                                 <i class="fas fa-filter"></i>
                             </button>
-                            <button class="btn-icon">
+                            <button class="btn-icon" title="Ordenar lista" aria-label="Ordenar lista">
                                 <i class="fas fa-sort"></i>
                             </button>
-                            <button class="btn-icon">
+                            <button class="btn-icon" title="Configurar colunas" aria-label="Configurar colunas">
                                 <i class="fas fa-columns"></i>
                             </button>
                         </div>
@@ -177,7 +177,7 @@
                         <table class="clients-table">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" class="select-all"></th>
+                                    <th><input type="checkbox" class="select-all" title="Selecionar todos" aria-label="Selecionar todos os clientes"></th>
                                     <th>Cliente</th>
                                     <th>Empresa</th>
                                     <th>Status</th>
@@ -188,7 +188,7 @@
                             </thead>
                             <tbody>
                                 <tr class="table-row">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" title="Selecionar Maria Rodrigues" aria-label="Selecionar Maria Rodrigues"></td>
                                     <td>
                                         <div class="client-info">
                                             <div class="client-avatar">MR</div>
@@ -215,13 +215,13 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn-action view">
+                                            <button class="btn-action view" title="Visualizar cliente Maria" aria-label="Visualizar cliente Maria Rodrigues">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn-action edit">
+                                            <button class="btn-action edit" title="Editar cliente Maria" aria-label="Editar cliente Maria Rodrigues">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn-action delete">
+                                            <button class="btn-action delete" title="Excluir cliente Maria" aria-label="Excluir cliente Maria Rodrigues">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -229,7 +229,7 @@
                                 </tr>
                                 
                                 <tr class="table-row">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" title="Selecionar João Silva" aria-label="Selecionar João Silva"></td>
                                     <td>
                                         <div class="client-info">
                                             <div class="client-avatar">JS</div>
@@ -256,13 +256,13 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn-action view">
+                                            <button class="btn-action view" title="Visualizar cliente João" aria-label="Visualizar cliente João Silva">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn-action edit">
+                                            <button class="btn-action edit" title="Editar cliente João" aria-label="Editar cliente João Silva">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn-action delete">
+                                            <button class="btn-action delete" title="Excluir cliente João" aria-label="Excluir cliente João Silva">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -270,7 +270,7 @@
                                 </tr>
                                 
                                 <tr class="table-row">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" title="Selecionar Ana Costa" aria-label="Selecionar Ana Costa"></td>
                                     <td>
                                         <div class="client-info">
                                             <div class="client-avatar">AC</div>
@@ -297,13 +297,13 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn-action view">
+                                            <button class="btn-action view" title="Visualizar cliente Ana" aria-label="Visualizar cliente Ana Costa">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn-action edit">
+                                            <button class="btn-action edit" title="Editar cliente Ana" aria-label="Editar cliente Ana Costa">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn-action delete">
+                                            <button class="btn-action delete" title="Excluir cliente Ana" aria-label="Excluir cliente Ana Costa">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -315,11 +315,11 @@
                     
                     <!-- Paginação -->
                     <div class="pagination">
-                        <button class="pagination-btn" disabled>
+                        <button class="pagination-btn" disabled title="Página anterior" aria-label="Página anterior">
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <span class="pagination-info">Página 1 de 42 • 1,247 clientes</span>
-                        <button class="pagination-btn">
+                        <button class="pagination-btn" title="Próxima página" aria-label="Próxima página">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>

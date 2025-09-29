@@ -39,6 +39,18 @@ class ClientsModule {
         window.addEventListener('dashboardShown', () => {
             this.loadAndRenderClients();
         });
+        
+        // Se o dashboard já estiver visível (sessão existente), carregar clientes imediatamente
+        const dashboard = document.querySelector('.dashboard-container');
+        const loginScreen = document.getElementById('loginScreen');
+        
+        // Verificar se dashboard já está sendo mostrado (login screen está oculto)
+        if (dashboard && loginScreen && loginScreen.classList.contains('hidden')) {
+            // Aguardar um tick para garantir que DOM está pronto
+            setTimeout(() => {
+                this.loadAndRenderClients();
+            }, 100);
+        }
     }
 
     /**
@@ -392,6 +404,12 @@ class ClientsModule {
         if (isFirst) removeBtn.style.display = 'none';
         removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
         
+        // Adicionar atributos name para validação
+        const inputIndex = this.elements.numbersContainer.querySelectorAll('.number-input-group').length;
+        ddiInput.name = `ddi_${inputIndex}`;
+        dddInput.name = `ddd_${inputIndex}`;
+        phoneInput.name = `phone_${inputIndex}`;
+        
         // Montar estrutura
         phoneInputsDiv.appendChild(ddiInput);
         phoneInputsDiv.appendChild(dddInput);
@@ -414,12 +432,22 @@ class ClientsModule {
     }
 
     /**
-     * Atualiza visibilidade dos botões de remoção
+     * Atualiza visibilidade dos botões de remoção e índices dos campos
      */
     updateRemoveButtons() {
         const inputGroups = this.elements.numbersContainer.querySelectorAll('.number-input-group');
         inputGroups.forEach((group, index) => {
             const removeBtn = group.querySelector('.btn-remove-number');
+            const ddiInput = group.querySelector('.ddi-input');
+            const dddInput = group.querySelector('.ddd-input');
+            const phoneInput = group.querySelector('.phone-input');
+            
+            // Atualizar atributos name
+            ddiInput.name = `ddi_${index}`;
+            dddInput.name = `ddd_${index}`;
+            phoneInput.name = `phone_${index}`;
+            
+            // Atualizar visibilidade do botão
             if (inputGroups.length === 1) {
                 removeBtn.style.display = 'none';
             } else {

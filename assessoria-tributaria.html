@@ -29,13 +29,13 @@
                 <button type="submit" class="btn-login">
                     <i class="fas fa-sign-in-alt"></i> Entrar
                 </button>
-                <div id="loginError" class="error-message" style="display: none;"></div>
+                <div id="loginError" class="error-message hidden"></div>
             </form>
         </div>
     </div>
 
     <!-- Dashboard Principal -->
-    <div id="dashboard" class="dashboard-container" style="display: none;">
+    <div id="dashboard" class="dashboard-container hidden">
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <div class="sidebar-header">
@@ -84,7 +84,7 @@
                 </div>
             </nav>
             
-            <div class="sidebar-footer" style="margin-top: auto; padding: var(--space-5);">
+            <div class="sidebar-footer">
                 <button id="logoutBtn" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
@@ -199,7 +199,7 @@
                     <div class="section-header">
                         <h2 class="section-title">Relatórios</h2>
                     </div>
-                    <p style="color: var(--text-muted); text-align: center; padding: 3rem;">
+                    <p class="empty-state">
                         Em breve - Sistema de relatórios e analytics
                     </p>
                 </div>
@@ -208,7 +208,7 @@
                     <div class="section-header">
                         <h2 class="section-title">Configurações</h2>
                     </div>
-                    <p style="color: var(--text-muted); text-align: center; padding: 3rem;">
+                    <p class="empty-state">
                         Em breve - Configurações do sistema
                     </p>
                 </div>
@@ -221,7 +221,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle" class="modal-title">Novo Cliente</h3>
-                <button class="modal-close" id="closeModal">
+                <button class="modal-close" id="closeModal" title="Fechar modal" aria-label="Fechar modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -232,7 +232,7 @@
                     
                     <div class="form-group">
                         <label for="clientName">Nome do Cliente:</label>
-                        <input type="text" id="clientName" class="form-control" required placeholder="Digite o nome completo">
+                        <input type="text" id="clientName" name="name" class="form-control" required placeholder="Digite o nome completo">
                     </div>
 
                     <div class="form-group">
@@ -263,41 +263,42 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="dueDay">Dia de Vencimento (1-31):</label>
-                        <input type="number" id="dueDay" class="form-control" min="1" max="31" placeholder="Ex: 15">
-                        <option value="1">Dia 1</option>
-                        <option value="2">Dia 2</option>
-                        <option value="3">Dia 3</option>
-                        <option value="4">Dia 4</option>
-                        <option value="5">Dia 5</option>
-                        <option value="6">Dia 6</option>
-                        <option value="7">Dia 7</option>
-                        <option value="8">Dia 8</option>
-                        <option value="9">Dia 9</option>
-                        <option value="10">Dia 10</option>
-                        <option value="11">Dia 11</option>
-                        <option value="12">Dia 12</option>
-                        <option value="13">Dia 13</option>
-                        <option value="14">Dia 14</option>
-                        <option value="15">Dia 15</option>
-                        <option value="16">Dia 16</option>
-                        <option value="17">Dia 17</option>
-                        <option value="18">Dia 18</option>
-                        <option value="19">Dia 19</option>
-                        <option value="20">Dia 20</option>
-                        <option value="21">Dia 21</option>
-                        <option value="22">Dia 22</option>
-                        <option value="23">Dia 23</option>
-                        <option value="24">Dia 24</option>
-                        <option value="25">Dia 25</option>
-                        <option value="26">Dia 26</option>
-                        <option value="27">Dia 27</option>
-                        <option value="28">Dia 28</option>
-                        <option value="29">Dia 29</option>
-                        <option value="30">Dia 30</option>
-                        <option value="31">Dia 31</option>
-                    </select>
-                </div>
+                        <label for="dueDay">Dia de Vencimento:</label>
+                        <select id="dueDay" class="form-control" required>
+                            <option value="">Selecione o dia</option>
+                            <option value="1">Dia 1</option>
+                            <option value="2">Dia 2</option>
+                            <option value="3">Dia 3</option>
+                            <option value="4">Dia 4</option>
+                            <option value="5">Dia 5</option>
+                            <option value="6">Dia 6</option>
+                            <option value="7">Dia 7</option>
+                            <option value="8">Dia 8</option>
+                            <option value="9">Dia 9</option>
+                            <option value="10">Dia 10</option>
+                            <option value="11">Dia 11</option>
+                            <option value="12">Dia 12</option>
+                            <option value="13">Dia 13</option>
+                            <option value="14">Dia 14</option>
+                            <option value="15">Dia 15</option>
+                            <option value="16">Dia 16</option>
+                            <option value="17">Dia 17</option>
+                            <option value="18">Dia 18</option>
+                            <option value="19">Dia 19</option>
+                            <option value="20">Dia 20</option>
+                            <option value="21">Dia 21</option>
+                            <option value="22">Dia 22</option>
+                            <option value="23">Dia 23</option>
+                            <option value="24">Dia 24</option>
+                            <option value="25">Dia 25</option>
+                            <option value="26">Dia 26</option>
+                            <option value="27">Dia 27</option>
+                            <option value="28">Dia 28</option>
+                            <option value="29">Dia 29</option>
+                            <option value="30">Dia 30</option>
+                            <option value="31">Dia 31</option>
+                        </select>
+                    </div>
 
                 <div class="modal-actions">
                     <button type="button" class="btn-secondary" id="cancelModal">Cancelar</button>
@@ -310,7 +311,7 @@
     </div>
 
     <!-- Modal de Confirmação -->
-    <div id="confirmModal" class="modal" style="display: none;">
+    <div id="confirmModal" class="modal hidden">
         <div class="modal-content small">
             <div class="modal-header">
                 <h3>Confirmar Ação</h3>

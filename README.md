@@ -4,36 +4,43 @@ Sistema web modular para gerenciamento de clientes da assessoria tributária via
 
 ## Arquitetura do Sistema
 
-### Estrutura de Arquivos Organizada
+### Estrutura de Arquivos Atualizada
 ```
 ganfi-admin/
 ├── assessoria-tributaria.html              # Interface principal da assessoria
+├── kanban.html                             # Dashboard Kanban (demo)
+├── clientes.html                           # Gestão de clientes (demo)  
+├── tarefas.html                            # Sistema de tarefas (demo)
 ├── css/
-│   ├── common.css                          # Estilos base e componentes reutilizáveis
-│   └── assessoria-tributaria.css           # Estilos específicos da assessoria
+│   ├── common.css                          # Estilos base e sidebar consistente
+│   ├── assessoria-tributaria.css           # Estilos específicos da assessoria
+│   ├── kanban.css                          # Estilos do dashboard Kanban
+│   ├── clientes.css                        # Estilos da gestão de clientes
+│   └── tarefas.css                         # Estilos do sistema de tarefas
 ├── js/
 │   ├── assessoria-tributaria.js            # Aplicação principal e orquestração
 │   ├── services/
-│   │   └── api.js                          # Serviços de comunicação com API
+│   │   └── api.js                          # Serviços de comunicação webhook
 │   ├── modules/
-│   │   ├── auth.js                         # Módulo de autenticação
-│   │   ├── navigation.js                   # Módulo de navegação
-│   │   └── clients.js                      # Módulo de gestão de clientes
+│   │   ├── auth.js                         # Autenticação e sessão
+│   │   ├── navigation.js                   # Navegação entre seções
+│   │   └── clients.js                      # Gestão completa de clientes
 │   └── utils/
-│       ├── date-utils.js                   # Utilitários para datas
-│       ├── phone-utils.js                  # Utilitários para telefones
-│       └── ui-utils.js                     # Utilitários para interface
-├── script.js.backup                        # Backup do script monolítico original
-└── README.md                               # Documentação técnica
+│       ├── date-utils.js                   # Formatação e cálculos de datas
+│       ├── phone-utils.js                  # Formatação de números telefônicos
+│       └── ui-utils.js                     # Notificações e componentes UI
+├── script.js.backup                        # Backup do sistema monolítico
+├── README.md                               # Documentação principal
+└── TECHNICAL.md                            # Documentação técnica detalhada
 ```
 
 ### Tecnologias e Padrões
 - **Frontend**: HTML5, CSS3, JavaScript ES6+ modular
-- **API**: Fetch API com classes de serviço organizadas  
-- **Arquitetura**: Módulos isolados com responsabilidades únicas
-- **Storage**: Database-first (localStorage apenas para sessão)
-- **Icons**: Font Awesome CDN
-- **CSS**: Variáveis CSS customizadas e sistema de design reutilizável
+- **API**: Webhook REST com auto-refresh (30s) e operações CRUD
+- **Arquitetura**: Módulos independentes com inicialização assíncrona
+- **Storage**: Database-first com sincronização automática
+- **Design**: Glassmorphism moderno com sidebar consistente
+- **Icons**: Font Awesome 6.0+ e componentes responsivos
 
 ## Benefícios da Nova Arquitetura
 
@@ -67,6 +74,7 @@ ganfi-admin/
 ```
 URL: https://requisicao.grupoganfi.com/webhook/0f8b0045-4bc7-40e0-b902-bd7d2d6c26cf
 Método: GET
+Auto-refresh: 30 segundos
 ```
 
 **Formato de Resposta do Banco**:
@@ -76,8 +84,10 @@ Método: GET
     "id_contato": 11,
     "nome": "Nome Cliente", 
     "status": "paid|pending|overdue",
-    "numeros_autorizados": ["(15) 99171-6525", "1599171-6525"],
-    "data_vencimento": "2025-10-15T03:00:00.000Z"
+    "numeros_autorizados": ["(15) 99171-6525"],
+    "data_vencimento": "2025-10-15T03:00:00.000Z",
+    "data_criacao": "2025-09-25T15:27:30.997Z",
+    "data_qualificacao": null
   }
 ]
 ```
@@ -119,220 +129,170 @@ O sistema separa completamente a **apresentação visual** do **formato de envio
 - Converte: `5511599171625` (DDI + DDD + Número)
 - Envia: String numérica sem formatação
 
-### Funções de Transformação
-
-**Localização**: `script.js` linhas 45-85
-
-```javascript
-// Conversão: Visual → API
-function formatToWebhook(ddd, numero)     // Linha 45
-
-// Conversão: Banco → Visual  
-function formatFromDatabase(numeroCompleto) // Linha 65
-
-// Validação de estrutura
-function validarNumero(ddd, numero)       // Linha 85
-```
-
-## Mapa de Funcionalidades
+## Arquitetura Modular
 
 ### Sistema de Autenticação
-**Arquivo**: `script.js` linhas 15-40
-```javascript
-function checkAuth()           // Linha 15 - Verificação de sessão
-function handleLogin()         // Linha 25 - Processo de login  
-function logout()              // Linha 35 - Logout e limpeza
+**Arquivo**: `js/modules/auth.js`
+- Verificação de sessão existente com carregamento automático
+- Login/logout com persistência no localStorage
+- Eventos personalizados para coordenação entre módulos
+
+### Gestão de Clientes  
+**Arquivo**: `js/modules/clients.js`
+- CRUD completo com validação de dados
+- Auto-refresh com sincronização em tempo real
+- Busca/filtro instantâneo e estatísticas automáticas
+- Carregamento inteligente: inicial automático + manual sob demanda
+
+### Serviços de API
+**Arquivo**: `js/services/api.js`
+- Comunicação webhook com tratamento de erros robusto
+- Formatação automática de dados (DB ↔ Sistema ↔ API)
+- Headers e timeouts configurados para produção
+
+### Utilitários Especializados
+**Arquivos**: `js/utils/`
+- **phone-utils.js**: Formatação (15) 99171-6525 ↔ 5515991716525
+- **date-utils.js**: Cálculos de vencimento e formatação BR
+- **ui-utils.js**: Notificações, modais e componentes visuais
+
+### Interface Moderna
+**Arquivos CSS**:
+- **common.css**: Sidebar padronizada e componentes base
+- **assessoria-tributaria.css**: Glassmorphism e layout responsivo
+
+## Fluxos do Sistema
+
+### Inicialização Modular
+```
+1. AssessoriaTributariaApp.init()
+2. Módulos carregados sequencialmente: Auth → Navigation → Clients  
+3. Verificação automática de sessão existente
+4. Carregamento inteligente: se logado → clientes automáticos
+5. Auto-refresh ativo (30s) + manual sob demanda
 ```
 
-### Gerenciamento de Clientes
-**Arquivo**: `script.js` linhas 100-300
-
-```javascript
-function loadClients()         // Linha 100 - Carrega dados da API
-function mapDatabaseToClient() // Linha 120 - Converte formato BD → Sistema
-function renderClientTable()   // Linha 140 - Renderiza tabela HTML
-function searchClients()       // Linha 160 - Filtro de busca
-function addClient()           // Linha 180 - Adiciona novo cliente
-function editClient()          // Linha 220 - Edição de cliente existente
-function deleteClient()        // Linha 260 - Exclusão com confirmação
-function populateClientForm()  // Linha 280 - Preenche formulário de edição
-function renewClientPayment()  // Linha 300 - Renovação de vencimento (+ 1 mês)
+### Operações CRUD Otimizadas
 ```
-
-### Sistema de Números Telefônicos
-**Arquivo**: `script.js` linhas 320-400
-
-```javascript
-function addPhoneNumber()      // Linha 320 - Adiciona campo de número
-function removePhoneNumber()   // Linha 340 - Remove campo específico
-function validatePhoneNumber() // Linha 360 - Validação DDD+Número
-function formatPhoneDisplay()  // Linha 380 - Formatar para exibição
-```
-
-### Integração com Webhooks  
-**Arquivo**: `script.js` linhas 450-520
-
-```javascript
-function sendWebhook()              // Linha 450 - Envia eventos para API
-function refreshClientsFromServer() // Linha 470 - Atualização do banco (30s)
-function loadClientsFromDatabase()  // Linha 490 - Carrega dados do banco
-function handleApiError()           // Linha 510 - Tratamento de erros
-```
-
-### Interface e Componentes
-**Arquivo**: `styles.css` linhas organizadas por seção
-
-```css
-/* Componentes Base */
-.dashboard-card              /* Linha 50 - Cards do dashboard */
-.client-table               /* Linha 120 - Tabela de clientes */  
-.modal-overlay              /* Linha 200 - Modais de formulário */
-.form-group                 /* Linha 280 - Grupos de campos */
-.custom-select              /* Linha 350 - Selects personalizados */
-.notification               /* Linha 420 - Sistema de notificações */
-
-/* Layout Responsivo */  
-@media (max-width: 768px)   /* Linha 500 - Adaptação mobile */
-```
-
-## Fluxograma do Sistema
-
-### Inicialização
-```
-1. Carregamento da página (index.html)
-2. Verificação de autenticação (checkAuth)
-3. Se autenticado → Dashboard | Se não → Tela de Login
-4. Carregamento inicial de dados (loadClients)
-5. Auto-refresh ativado (30s)
-```
-
-### Operações CRUD
-```
-Criar/Editar Cliente:
-1. Validação de formulário (validateForm)
-2. Formatação de números (formatToWebhook) 
-3. Envio para API (sendWebhook)
-4. Aguardo processamento (1s delay)
-5. Recarregamento de dados (loadClients)
-6. Atualização da interface (renderClientTable)
+Criar/Editar:
+1. Validação client-side completa
+2. Formatação automática de números
+3. Webhook POST com retry automático
+4. Sincronização imediata com banco
+5. UI atualizada em tempo real
 
 Exclusão:
-1. Confirmação do usuário
-2. Envio evento "cliente_excluido"
-3. Atualização automática
+1. Confirmação modal obrigatória  
+2. Webhook "cliente_excluido"
+3. Remoção instantânea da interface
 ```
 
-### Processamento de Números
+### Sistema de Vencimentos
 ```
-Entrada do Banco → Sistema:
-"(15) 99171-6525" → Regex parsing → Display "(15) 99171-6525"
+Novo Cliente: 
+- Data calculada automaticamente (próximo mês no dia escolhido)
+- Status inicial configurável (paid/pending/overdue)
 
-Sistema → API:
-"(15) 99171-6525" → Remove formatação → "1599171625" → Adiciona DDI → "551599171625"
-```
-
-### Sistema de Renovação de Vencimento
-```
-Renovação Manual:
-1. Usuário clica em "Renovar" na tabela
-2. Sistema adiciona 1 mês à data atual de vencimento
-3. Envia webhook "cliente_atualizado" com nova dataVencimento
-4. Recarrega dados do servidor
-5. Interface atualiza automaticamente
-
-Cálculo de Vencimento:
-- Novo Cliente: dataVencimento = próximo mês no dia escolhido
-- Renovação: dataVencimento = data atual + 1 mês
-- Banco: Retorna data_vencimento em timestamp
-- Interface: Mostra "Próximo: DD/MM/AAAA"
+Renovação:
+- +1 mês a partir da data atual de vencimento
+- Webhook automático de atualização
+- Interface reflete mudanças instantaneamente
 ```
 
-## Validações e Regras de Negócio
+## Validações e Regras
 
 ### Números de Telefone
 ```javascript
-// Validação: script.js linha 360
-- DDD: 2 dígitos (11-99)
-- Número: 8 ou 9 dígitos
-- Formato visual: (XX) XXXXX-XXXX | (XX) XXXX-XXXX  
-- Formato API: 55XXXXXXXXXXX (DDI + DDD + Número)
+// PhoneUtils.js - Formatação automática
+- Input: DDD + Número (validação em tempo real)
+- Display: (15) 99171-6525 (formato brasileiro padronizado)
+- API: 5515991716525 (DDI 55 + DDD + número limpo)
+- Validação: DDD 11-99, Número 8-9 dígitos
 ```
 
-### Status de Pagamento
+### Status de Pagamento  
 ```javascript
-// Valores permitidos: script.js linha 25
-"paid"     → Pago (Verde)
-"pending"  → Pendente (Amarelo)  
-"overdue"  → Atrasado (Vermelho)
+// Mapeamento visual automático
+"paid"     → "Pagamento em Dia" (badge verde)
+"pending"  → "Pagamento Pendente" (badge amarelo)
+"overdue"  → "Pagamento Atrasado" (badge vermelho)
 ```
 
 ### Campos Obrigatórios
 ```javascript
-// Validação: script.js linha 180
-- Nome do cliente (string, não vazio)
-- Pelo menos 1 número autorizado
-- Status de pagamento (enum válido)
-- Dia de vencimento (1-31)
+// Validação client-side completa
+✓ Nome do cliente (não vazio)
+✓ Mínimo 1 número autorizado (formato válido)  
+✓ Status de pagamento (enum)
+✓ Dia de vencimento (1-31)
 ```
 
-## Tratamento de Erros
+## Sistema de Sincronização
 
-### Tratamento de Falhas
+### Auto-Refresh Inteligente
 ```javascript
-// Implementação: script.js linha 490
-1. Requisição à API (banco de dados)
-2. Se falhar → Array vazio + notificação de erro
-3. Sem fallback de cache - sempre dados reais
-4. Usuário deve aguardar conexão com banco
+// ClientsModule - Timer otimizado
+✓ Intervalo: 30 segundos (configurável)
+✓ Condição: Dashboard ativo + usuário logado
+✓ Silencioso: Sem notificações excessivas  
+✓ Manual: Botão "Atualizar" sempre disponível
+✓ Carregamento inicial: Automático após F5/login
 ```
 
-### Códigos de Resposta
+### Tratamento de Erros Robusto
 ```javascript
-// Mapeamento: script.js linha 500
-200: Sucesso
-404: Endpoint não encontrado  
-500: Erro interno do servidor
-Network Error: Problema de conectividade
-```
-
-## Sincronização com Banco de Dados
-
-### Sistema Real-Time (Sem Cache)
-```javascript  
-// Timer: script.js linha 470
-Intervalo: 30 segundos
-Condição: Usuário logado && Dashboard visível
-Comportamento: Sempre busca dados direto do banco
-Manual: Botão "Atualizar" disponível
-Fallback: Nenhum - apenas dados do servidor
+// ApiService - Recuperação automática
+✓ Retry automático em falhas temporárias
+✓ Notificações contextuais (sucesso/erro/warning)
+✓ Fallback: Interface mantém dados anteriores
+✓ Logs estruturados para debugging
 ```
 
 ## Configuração e Deploy
 
-### Requisitos
-- Servidor web (Apache, Nginx, ou similar)
-- Suporte a arquivos estáticos (HTML, CSS, JS)
-- Conexão HTTPS (recomendado para APIs externas)
+### Tecnologia Stack
+- **Frontend**: HTML5 + CSS3 + JavaScript ES6+ puro
+- **Deploy**: GitHub Pages ready (arquivos estáticos)
+- **APIs**: Webhook REST com HTTPS obrigatório
+- **Compatibilidade**: Chrome 80+, Firefox 75+, Safari 13+
 
-### Variáveis de Ambiente
+### Configurações Centralizadas
 ```javascript
-// Configuração: script.js linhas 5-10
-API_READ_ENDPOINT: "https://requisicao.grupoganfi.com/webhook/0f8b0045..."
-API_WRITE_ENDPOINT: "https://requisicao.grupoganfi.com/webhook/50e63045..." 
-LOGIN_EMAIL: "adminganfi@gmail.com"
-LOGIN_PASSWORD: "ganfiadmin*"
+// js/modules/auth.js + js/services/api.js
+✓ Endpoints webhook configurados
+✓ Credenciais de login hardcoded (seguras para demo)
+✓ Timeouts e headers otimizados  
+✓ Auto-refresh configurável (30s padrão)
 ```
 
-### Instalação
+### Deploy Simples
 ```bash
-# 1. Clone o repositório
-git clone https://github.com/IAutomatize/ganfi.git
+# GitHub Pages - Deploy automático
+git push origin main
+# → Disponível em: https://iautomatize.github.io/ganfi/
 
-# 2. Configure servidor web apontando para a pasta
-# 3. Acesse via navegador: http://localhost/ganfi-admin
+# Localhost - Desenvolvimento
+python -m http.server 8080
+# → Acesse: http://localhost:8080/assessoria-tributaria.html
 ```
+
+## Status Atual
+
+### ✅ Funcionalidades Implementadas
+- **Autenticação**: Login/logout com sessão persistente
+- **Gestão de Clientes**: CRUD completo com webhooks
+- **Sincronização**: Auto-refresh + manual sob demanda  
+- **Interface**: Design moderno responsivo com glassmorphism
+- **Validação**: Client-side completa com formatação automática
+- **Navegação**: Sidebar consistente entre páginas
+
+### 🔧 Correções Aplicadas
+- **Carregamento inicial**: Clientes carregam automaticamente após F5
+- **Timing de inicialização**: Módulos coordenados corretamente
+- **Sidebar padronizada**: Layout consistente em todas as páginas
+- **Event listeners**: Fluxo de eventos otimizado entre módulos
 
 ---
 
-**Sistema de Administração Grupo Ganfi**  
-**Versão**: 1.0.0 | **Arquitetura**: SPA Frontend | **API**: REST Webhooks
+**Ganfi Admin System v1.1.0**  
+**Arquitetura Modular** • **Webhook Integration** • **Real-time Sync**

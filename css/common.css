@@ -476,6 +476,29 @@ body {
 .dept-badge.pessoal { background: rgba(245, 158, 11, 0.1); color: #92400e; }
 .dept-badge.juridico { background: rgba(139, 69, 19, 0.1); color: #92400e; }
 
+/* Utility classes to replace inline styles */
+.hidden { display: none !important; }
+.visible { display: block !important; }
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: var(--spacing-lg);
+}
+
+.empty-state {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 3rem;
+}
+
+.progress-fill-65 {
+    width: 65%;
+}
+
+.progress-fill-75 {
+    width: 75%;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     .modal-content {

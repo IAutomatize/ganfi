@@ -7,7 +7,7 @@ class ApiService {
     constructor() {
         this.baseUrl = 'https://requisicao.grupoganfi.com/webhook';
         this.readEndpoint = '0f8b0045-4bc7-40e0-b902-bd7d2d6c26cf';
-        this.writeEndpoint = 'b4bd72da-f55e-4f5d-bee7-f453ea263428';
+        this.writeEndpoint = '50e63045-e679-4ad3-b496-a6700f4c9917';
         this.headers = {
             'Content-Type': 'application/json',
             'User-Agent': 'Ganfi-Admin/1.0'

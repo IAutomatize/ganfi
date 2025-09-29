@@ -83,8 +83,8 @@ class AuthModule {
      * Mostra tela de login
      */
     showLogin() {
-        this.elements.loginScreen.style.display = 'flex';
-        this.elements.dashboard.style.display = 'none';
+        this.elements.loginScreen.classList.remove('hidden');
+        this.elements.dashboard.classList.add('hidden');
         this.clearLoginForm();
     }
 
@@ -92,8 +92,8 @@ class AuthModule {
      * Mostra dashboard
      */
     showDashboard() {
-        this.elements.loginScreen.style.display = 'none';
-        this.elements.dashboard.style.display = 'block';
+        this.elements.loginScreen.classList.add('hidden');
+        this.elements.dashboard.classList.remove('hidden');
         
         // Disparar evento personalizado para outros módulos
         window.dispatchEvent(new CustomEvent('dashboardShown'));
