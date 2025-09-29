@@ -130,12 +130,19 @@ body {
     font-size: 0.95rem;
 }
 
-.logo {
-    width: 80px;
-    height: 40px;
+.logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     margin: 0 auto var(--space-5) auto;
-    border-radius: var(--radius-sm);
-    object-fit: cover;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.logo-text i {
+    font-size: 1.8rem;
 }
 
 .login-header h2 {
@@ -650,34 +657,49 @@ body {
 }
 
 .btn-primary {
-    background: var(--accent-blue);
-    color: var(--text-inverse);
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-    background: #2c5aa0;
+    background: #1d4ed8;
     transform: translateY(-1px);
-    box-shadow: var(--shadow-medium);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .btn-success {
-    background: var(--accent-green);
-    color: var(--text-inverse);
+    background: #10b981;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
 }
 
 .btn-success:hover {
-    background: #2f855a;
+    background: #059669;
     transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .btn-outline {
     background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 .btn-outline:hover {
-    background: var(--bg-primary);
+    background: #f9fafb;
+    border-color: #9ca3af;
+    color: #374151;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-color: var(--text-muted);
 }
 
@@ -804,43 +826,49 @@ body {
 }
 
 .btn-edit, .btn-renew, .btn-delete {
-    padding: var(--space-2) var(--space-3);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
-    font-weight: var(--font-weight-medium);
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: var(--transition-fast);
+    transition: all 0.15s ease;
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: 4px;
 }
 
 .btn-edit {
-    background: rgba(49, 130, 206, 0.1);
-    color: var(--accent-blue);
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
 }
 
 .btn-edit:hover {
-    background: rgba(49, 130, 206, 0.2);
+    background: #2563eb;
+    border-color: #2563eb;
 }
 
 .btn-renew {
-    background: rgba(56, 161, 105, 0.1);
-    color: var(--accent-green);
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
 }
 
 .btn-renew:hover {
-    background: rgba(56, 161, 105, 0.2);
+    background: #059669;
+    border-color: #059669;
 }
 
 .btn-delete {
-    background: rgba(229, 62, 62, 0.1);
-    color: var(--accent-red);
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
 }
 
 .btn-delete:hover {
-    background: rgba(229, 62, 62, 0.2);
+    background: #dc2626;
+    border-color: #dc2626;
 }
 
 /* ===== MODAL MODERNO ===== */

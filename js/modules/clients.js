@@ -9,6 +9,16 @@ class ClientsModule {
         this.filteredClients = [];
         this.editingClient = null;
         
+        // Elementos serão inicializados no init()
+        this.elements = {};
+    }
+    
+    /**
+     * Inicializa elementos do DOM
+     */
+    initializeElements() {
+        console.log('🔍 Inicializando elementos DOM...');
+        
         this.elements = {
             searchClients: document.getElementById('searchClients'),
             addClientBtn: document.getElementById('addClientBtn'),
@@ -16,24 +26,44 @@ class ClientsModule {
             clientForm: document.getElementById('clientForm'),
             closeModal: document.getElementById('closeModal'),
             cancelModal: document.getElementById('cancelModal'),
-            confirmModal: document.getElementById('confirmModal'),
-            cancelConfirm: document.getElementById('cancelConfirm'),
-            confirmAction: document.getElementById('confirmAction'),
+
             addNumberBtn: document.getElementById('addNumberBtn'),
             numbersContainer: document.querySelector('.numbers-container'),
             clientsTableBody: document.getElementById('clientsTableBody'),
             modalTitle: document.getElementById('modalTitle'),
-            confirmMessage: document.getElementById('confirmMessage'),
             refreshDataBtn: document.getElementById('refreshDataBtn')
         };
+        
+        // Debug: verificar quais elementos não foram encontrados
+        const missingElements = Object.entries(this.elements)
+            .filter(([key, element]) => !element)
+            .map(([key]) => key);
+            
+        if (missingElements.length > 0) {
+            console.warn('⚠️ Elementos não encontrados:', missingElements);
+        }
+        
+        console.log('✅ Elementos inicializados');
     }
 
     /**
      * Inicializa o módulo de clientes
      */
     init() {
-        this.setupEventListeners();
-        this.startAutoRefresh();
+        console.log('🚀 Inicializando ClientsModule...');
+        
+        // Aguardar DOM estar pronto
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.initializeElements();
+                this.setupEventListeners();
+                this.startAutoRefresh();
+            });
+        } else {
+            this.initializeElements();
+            this.setupEventListeners();
+            this.startAutoRefresh();
+        }
         
         // Carregar clientes quando dashboard for mostrado
         window.addEventListener('dashboardShown', () => {
@@ -57,11 +87,30 @@ class ClientsModule {
      * Configura event listeners
      */
     setupEventListeners() {
+        console.log('🔧 Configurando event listeners do ClientsModule...');
+        
+        // Debug: verificar se elementos existem
+        console.log('Elements found:', {
+            addClientBtn: !!this.elements.addClientBtn,
+            clientModal: !!this.elements.clientModal,
+            searchClients: !!this.elements.searchClients
+        });
+        
         // Busca
         this.elements.searchClients?.addEventListener('input', () => this.handleSearch());
         
-        // Modal do cliente
-        this.elements.addClientBtn?.addEventListener('click', () => this.openClientModal());
+        // Modal do cliente - com debug
+        if (this.elements.addClientBtn) {
+            console.log('✅ Adicionando event listener ao botão "Novo Cliente"');
+            this.elements.addClientBtn.addEventListener('click', (e) => {
+                console.log('🖱️ Botão "Novo Cliente" clicado!');
+                e.preventDefault();
+                this.openClientModal();
+            });
+        } else {
+            console.error('❌ Elemento addClientBtn não encontrado!');
+        }
+        
         this.elements.closeModal?.addEventListener('click', () => this.closeClientModal());
         this.elements.cancelModal?.addEventListener('click', () => this.closeClientModal());
         this.elements.clientForm?.addEventListener('submit', (e) => this.handleClientSubmit(e));
@@ -72,17 +121,12 @@ class ClientsModule {
         // Adicionar número
         this.elements.addNumberBtn?.addEventListener('click', () => this.addNumberInput());
         
-        // Modal de confirmação
-        this.elements.cancelConfirm?.addEventListener('click', () => this.closeConfirmModal());
-        
         // Fechar modal clicando fora
         this.elements.clientModal?.addEventListener('click', (e) => {
             if (e.target === this.elements.clientModal) this.closeClientModal();
         });
         
-        this.elements.confirmModal?.addEventListener('click', (e) => {
-            if (e.target === this.elements.confirmModal) this.closeConfirmModal();
-        });
+
     }
 
     /**
@@ -260,11 +304,11 @@ class ClientsModule {
             </td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn-edit" onclick="clientsModule.editClient(${client.id})">
+                    <button class="btn-edit" onclick="window.clientsModule.editClient(${client.id})">
                         <i class="fas fa-edit"></i> Editar
                     </button>
                     ${client.dueDay && client.dueDate ? 
-                        `<button class="btn-renew" onclick="clientsModule.renewClientPayment(${client.id})" title="Renovar por mais 1 mês">
+                        `<button class="btn-renew" onclick="window.clientsModule.renewClientPayment(${client.id})" title="Renovar por mais 1 mês">
                             <i class="fas fa-calendar-plus"></i> Renovar
                         </button>` 
                         : 
@@ -272,7 +316,7 @@ class ClientsModule {
                             <i class="fas fa-calendar-plus"></i> Renovar
                         </button>`
                     }
-                    <button class="btn-delete" onclick="clientsModule.confirmDeleteClient(${client.id})">
+                    <button class="btn-delete" onclick="if(confirm('Tem certeza que deseja excluir o cliente ${client.name}?')) { window.clientsModule.deleteClient(${client.id}); }">
                         <i class="fas fa-trash"></i> Excluir
                     </button>
                 </div>
@@ -310,6 +354,11 @@ class ClientsModule {
     openClientModal(client = null) {
         this.editingClient = client;
         
+        if (!this.elements.clientModal) {
+            console.error('❌ Modal do cliente não encontrado!');
+            return;
+        }
+        
         if (client) {
             this.elements.modalTitle.textContent = 'Editar Cliente';
             this.populateClientForm(client);
@@ -318,6 +367,8 @@ class ClientsModule {
             this.clearClientForm();
         }
         
+        // Remover classe hidden e mostrar modal
+        this.elements.clientModal.classList.remove('hidden');
         this.elements.clientModal.style.display = 'flex';
     }
 
@@ -325,7 +376,11 @@ class ClientsModule {
      * Fecha modal do cliente
      */
     closeClientModal() {
-        this.elements.clientModal.style.display = 'none';
+        if (this.elements.clientModal) {
+            this.elements.clientModal.classList.add('hidden');
+            this.elements.clientModal.style.display = 'none';
+        }
+        
         this.editingClient = null;
         this.clearClientForm();
     }
@@ -596,23 +651,7 @@ class ClientsModule {
         }
     }
 
-    /**
-     * Confirma exclusão de cliente
-     */
-    confirmDeleteClient(clientId) {
-        const client = this.clients.find(c => c.id === clientId);
-        if (client) {
-            this.elements.confirmMessage.textContent = 
-                `Tem certeza que deseja excluir o cliente "${client.name}"? Esta ação não pode ser desfeita.`;
-            
-            this.elements.confirmAction.onclick = () => {
-                this.deleteClient(clientId);
-                this.closeConfirmModal();
-            };
-            
-            this.elements.confirmModal.style.display = 'flex';
-        }
-    }
+
 
     /**
      * Exclui cliente
@@ -636,9 +675,7 @@ class ClientsModule {
     /**
      * Fecha modal de confirmação
      */
-    closeConfirmModal() {
-        this.elements.confirmModal.style.display = 'none';
-    }
+
 
     /**
      * Renova vencimento do cliente
